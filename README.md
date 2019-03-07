@@ -39,6 +39,7 @@ class TaskGetDataConcrete(workflow.TaskGetData):
         return data
 
     def load_from_source(self):
+        # Loads literacy rate dataset
         data = pd.read_csv("https://query.data.world/s/ohtb5dg6ik6pr7vvylm2yqtwaf5aqs")
         return self.save(data)
         
@@ -91,13 +92,16 @@ if __name__ == "__main__":
     import logging
     logging.basicConfig(level=logging.DEBUG)
     model = workflow.DagflowCycle(
-        get_data=TaskGetDataConcrete(),
-        preprocess=TaskPreprocessConcrete(),
-        train=TaskTrainConcrete(),
-        model_saver=TaskSaveModelConcrete(),
-    ).run(step_1=False)
+        task_get_data=TaskGetDataConcrete(),
+        task_preprocess=TaskPreprocessConcrete(),
+        task_train=TaskTrainConcrete(),
+        task_model_saver=TaskSaveModelConcrete(),
+    ).run()
     print("Prediction of Literacy Rate: ", model.predict([[-0.466107, -0.445900,	0.794243, -0.257518, -0.714468]])[0])
 ```
 
 ## Roadmap:
 * Re-execute step
+* Tests
+* Upload to pypi
+* CI
