@@ -19,34 +19,34 @@ class DagflowCycle:
         Creates workflow.
 
         params:
-            
+
             task_get_data -- Implementation of the TaskGetData class
-            
+
             task_preprocess -- Implementation of the TaskPreprocess class
-            
+
             task_train -- Implementation of the TaskTrain class
-            
+
             task_model_saver -- Implementation of the TaskSaveModel class
-        
+
         returns:
-        
+
             The workflow Cycle
         """
         if (
-            issubclass(get_data.__class__, TaskGetData)
-            and issubclass(preprocess.__class__, TaskPreprocess)
-            and issubclass(train.__class__, TaskTrain)
-            and issubclass(model_saver.__class__, TaskSaveModel)
+            issubclass(task_get_data.__class__, TaskGetData)
+            and issubclass(task_preprocess.__class__, TaskPreprocess)
+            and issubclass(task_train.__class__, TaskTrain)
+            and issubclass(task_model_saver.__class__, TaskSaveModel)
         ):
-            self.step = Step(get_data, preprocess, train, model_saver)
+            self.step = Step(task_get_data, task_preprocess, task_train, task_model_saver)
 
     def run(self, step_1=True, step_2=True, step_3=True):
         """
         Runs the workflow cycle you can disable steps as a parameter.
         Will return the Machine Learning Model
-        
+
         params:
-        
+
             step_1 -- Default(True) Enables Loading the data from external sources. 
             If false will load from disk, or as defined in load_from_filesystem
 
@@ -92,6 +92,7 @@ class TaskGetData(ABC):
 
 class TaskPreprocess(ABC):
     """Abstract class to preprocess the data"""
+
     def __init__(self, *args, **kwargs):
         pass
 
@@ -104,6 +105,7 @@ class TaskPreprocess(ABC):
 
 class TaskTrain(ABC):
     """ Abstract class to train and build the machine learning model"""
+
     def __init__(self):
         pass
 
@@ -123,6 +125,7 @@ class TaskTrain(ABC):
 
 class TaskSaveModel(ABC):
     """Abstract class to save the machine learning model"""
+
     def __init__(self):
         pass
 
